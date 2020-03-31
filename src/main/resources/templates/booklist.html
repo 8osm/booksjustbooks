@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Comfortaa" />
+    <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Cabin Condensed' type='text/css' />
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${list_title}" ></title>
+</head>
+<body>
+    <div th:replace="fragments/header :: header" class="header">
+    </div>
+    <div class="content">
+            <ul class="books-list">
+                <div class="list-title">
+                    <p th:text="${list_title}" class="list-title">Our Books</p>
+                    <form th:action="@{/create}" method="get">
+                        <button th:if="${admin}" class="book-button button-create-book">Create book</button>
+                    </form>
+                    <form th:action="@{/search}" class="search-form">
+                        <input th:value="${query}" type="text" class="search-input" name="query" placeholder="Search">
+                        <div th:switch="${type}">
+                            <select th:case="author" name="type">
+                                <option selected="selected" value="author">By Author</option>
+                                <option  value="genre">By Genre</option>
+                            </select>
+                            <select th:case="genre" name="type">
+                                <option  value="author">By Author</option>
+                                <option selected="selected" value="genre">By Genre</option>
+                            </select>
+                            <select th:case="*" name="type" >
+                                <option  value="author">By Author</option>
+                                <option  value="genre">By Genre</option>
+                            </select>
+                        </div>
+
+                    </form>
+                </div>
+                <li th:each="el : ${books}" class="book">
+                    <img src="/generic-book-cover.jpg.webp" class="book-cover"/>
+                    <div class="book-info-text">
+                        <div class="book-info-main">
+                            <div th:text="${el.title}" class="book-title"></div>
+                            <div class="book-authors">
+                                <div th:each="author : ${el.getAuthorList()}">
+                                    <form th:action="@{/searchbyauthor}">
+                                        <button th:text="${author}" th:value="${author}" class="book-author" name="query"></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="book-info-meta">
+                            <div class="book-tags">
+                                    <div th:each="genre : ${el.getGenresList()}">
+                                        <form th:action="@{/searchbygenre}">
+                                            <button th:text="${genre}" th:value="${genre}" class="book-tag" name="query"></button>
+                                        </form>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="book-buttons">
+                        <form th:action="@{/book}">
+                            <button class="book-button button-show-more" name="bookFullId" th:value="${el.getId()}">Show more</button>
+                            <button  th:if="${admin}" class="book-button button-edit" name="bookEditId" th:value="${el.getId()}">Edit</button>
+                            <button  th:if="${admin}" class="book-button button-delete" name="bookDeleteId" th:value="${el.getId()}">Delete</button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+    </div>
+    <div th:replace="fragments/footer :: footer" class="footer">
+    </div>
+</body>
+</html>

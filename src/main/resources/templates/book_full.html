@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+  <head>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="//fonts.googleapis.com/css?family=Comfortaa"
+    />
+    <link
+      rel="stylesheet"
+      href="//fonts.googleapis.com/css?family=Cabin Condensed"
+      type="text/css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+  <div th:replace="fragments/header :: header" class="header">
+  </div>
+    <div class="content">
+      <div class="book-full">
+        <div class="book-info-image-tags">
+          <img src="/generic-book-cover.jpg.webp" class="book-cover-full" />
+          <div class="book-tags book-tags-full">
+            <div th:each="genre : ${book.getGenresList()}">
+              <form th:action="@{/searchbygenre}">
+                <button th:text="${genre}" th:value="${genre}" class="book-tag" name="query"></button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="book-info-text-full">
+          <div class="book-title book-title-full">Test</div>
+          <div class="book-authors book-authors-full">
+            <div th:each="author : ${book.getAuthorList()}">
+              <form th:action="@{/searchbyauthor}" name="type">
+                <button th:text="${author}" th:value="${author}" class="book-author" name="query"></button>
+              </form>
+            </div>
+        </div>
+          <p th:text="${book.getDescription()}" class="book-description">
+          </p>
+          <div class="book-price"><span th:text="${book.getPrice()}"></span> UAH</div>
+        </div>
+      </div>
+        <form th:action="@{/book/order}" method="post" class="order-form">
+          <div class="first-name-input">
+            <p class="input-label">First Name</p>
+            <input type="text" name="firstName" class="order-first-name" />
+          </div>
+          <div class="last-name-input">
+            <p class="input-label">Last Name:</p>
+            <input type="text" name="lastName" class="order-last-name" />
+          </div>
+          <div class="address-input">
+            <p class="input-label">Address:</p>
+            <input type="text" name="address" class="order-address" />
+          </div>
+          <div class="quantity-input">
+            <p class="input-label">Quantity:</p>
+            <input type="number" name="quantity" class="order-quantity" />
+          </div>
+          <button class="book-button button-submit-order" type="submit">Submit Order</button>
+        </form>
+    </div>
+  <div th:replace="fragments/footer :: footer" class="footer">
+    <!--        <div class="footer-copyright">BooksJustBooks [insert copyright sigh here]. 2020</div>-->
+  </div>
+  </body>
+</html>

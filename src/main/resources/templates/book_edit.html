@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="//fonts.googleapis.com/css?family=Comfortaa"
+    />
+    <link
+            rel="stylesheet"
+            href="//fonts.googleapis.com/css?family=Cabin Condensed"
+            type="text/css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+<body>
+<div th:replace="fragments/header :: header" class="header">
+</div>
+<div class="content">
+    <form th:action="@{/book/edit}" method="post" class="edit-form">
+        <div class="title-input">
+            <p class="input-label">Title</p>
+            <input th:value="${book.getTitle()}" type="text" name="title" class="edit-title" />
+        </div>
+        <div class="authors-input">
+            <p class="input-label">Authors (separate with commas)</p>
+            <input th:value="${book.getAuthors()}" type="text" name="authors" class="edit-authors" />
+        </div>
+        <div class="genres-input">
+            <p class="input-label">Genres (separate with commas)</p>
+            <input th:value="${book.getGenres()}" type="text" name="genres" class="edit-genres" />
+        </div>
+        <div class="description-input">
+            <p class="input-label">Description</p>
+            <textarea th:text="${book.getDescription()}" name="description"  cols="30" rows="10" class="edit-description"></textarea>
+        </div>
+        <div class="price-input">
+            <p class="input-label" >Price</p>
+            <input th:value="${book.getPrice()}" type="number" name="price" class="edit-price"/>
+        </div>
+        <button class="book-button button-confirm" type="submit" name="bookId" th:value="${book.getId()}">Confirm Edit</button>
+    </form>
+</div>
+<div th:replace="fragments/footer :: footer" class="footer">
+    <!--        <div class="footer-copyright">BooksJustBooks [insert copyright sigh here]. 2020</div>-->
+</div>
+</body>
+</html>

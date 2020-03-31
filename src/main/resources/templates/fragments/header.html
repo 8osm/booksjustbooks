@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<body>
+<div th:fragment="header" class="header">
+    <a th:href="@{/}" class="header-title">BooksJustBooks</a>
+    <div class="header-links">
+        <a th:href="@{/}" class="header-link book-list-link">Our Books</a>
+        <a th:href="@{/admin}" class="header-link admin-panel-link">Admin Panel</a>
+    </div>
+</div>
+</body>
+</html>
